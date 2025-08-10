@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
+import emailjs from "emailjs-com";
+
 // Hook personalizado para el tema
 function useTheme() {
   const [isDark, setIsDark] = useState(false);
@@ -205,13 +207,13 @@ function About() {
 function Projects() {
   const projects = [
     {
-      title: "E-commerce API REST",
+      title: "PuntoLima web page",
       description:
-        "API REST completa para plataforma de e-commerce con microservicios, Spring Boot, PostgreSQL y Redis para caché",
-      image: "/placeholder.svg?height=300&width=400",
+        "Desarrollo de página web para la empresa PuntoLima dedicada a marketing y servicios digitales",
+      image: "/puntoLima_proyecto.png?height=300&width=400",
       github: "#",
       demo: "#",
-      technologies: ["Java", "Spring Boot", "PostgreSQL", "Redis", "Docker"],
+      technologies: ["React", "HTML", "Vite", "Nextjs", "Tailwind"],
     },
     {
       title: "Sistema de Gestión Empresarial",
@@ -223,13 +225,13 @@ function Projects() {
       technologies: ["Java", "Spring Security", "MySQL", "JWT", "Maven"],
     },
     {
-      title: "Chat en Tiempo Real WebSocket",
+      title: "Página web para Noticiero ficticio",
       description:
-        "API WebSocket para aplicación de mensajería instantánea con Spring Boot, MongoDB y notificaciones push",
-      image: "/placeholder.svg?height=300&width=400",
+        "Página web para noticiero no real, con creación y modificación de noticias",
+      image: "/noticiero_proyecto.png?height=300&width=400",
       github: "#",
       demo: "#",
-      technologies: ["WebSocket", "MongoDB", "Spring Boot", "Firebase"],
+      technologies: ["React", "NextJS", "Postgresql", "Tailwind"],
     },
     {
       title: "Analytics Dashboard Backend",
@@ -238,7 +240,7 @@ function Projects() {
       image: "/placeholder.svg?height=300&width=400",
       github: "#",
       demo: "#",
-      technologies: ["Apache Kafka", "Elasticsearch", "Spring Boot", "AWS"],
+      technologies: ["Apache MVC", "Python", "Spring Boot"],
     },
   ];
 
@@ -439,12 +441,28 @@ function Contact() {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Simular envío
-    setIsSubmitted(true);
-    setTimeout(() => setIsSubmitted(false), 3000);
-    setFormData({ name: "", email: "", message: "" });
+
+    try {
+      await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        {
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+        },
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+      );
+
+      setIsSubmitted(true);
+      setFormData({ name: "", email: "", message: "" });
+      setTimeout(() => setIsSubmitted(false), 3000);
+    } catch (error) {
+      console.error("Error enviando email:", error);
+      alert("Hubo un problema al enviar el mensaje.");
+    }
   };
 
   return (
