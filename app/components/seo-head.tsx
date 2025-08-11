@@ -10,8 +10,8 @@ interface SEOHeadProps {
 export function SEOHead({
   title = "Lautaro Soria - Desarrollador Backend & Profesor Universitario",
   description = "Desarrollador Backend especializado en arquitecturas escalables, APIs robustas y microservicios. Profesor universitario con más de 3 años de experiencia.",
-  canonical = "https://lautaro.vercel.app",
-  ogImage = "https://lautaro.vercel.app/og-image.jpg",
+  canonical = "https://lautaro-soria.vercel.app",
+  ogImage = "https://lautaro-soria.vercel.app/og-image.jpg",
 }: SEOHeadProps) {
   return (
     <Head>
